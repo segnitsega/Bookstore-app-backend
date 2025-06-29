@@ -1,0 +1,27 @@
+{
+  "name": "bookstore-app-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/segnitsega/Bookstore-app-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/segnitsega/Bookstore-app-backend/issues"
+  },
+  "homepage": "https://github.com/segnitsega/Bookstore-app-backend#readme",
+  "devDependencies": {
+    "@types/node": "^24.0.7",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
