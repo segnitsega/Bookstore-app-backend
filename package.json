@@ -20,11 +20,15 @@
   },
   "homepage": "https://github.com/segnitsega/Bookstore-app-backend#readme",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.0.7",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "@prisma/client": "^6.10.1",
+    "dotenv": "^17.0.0",
+    "express": "^5.1.0",
     "prisma": "^6.10.1"
   }
 }
