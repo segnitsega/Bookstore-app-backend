@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node src/server.ts",
+    "dev": "nodemon --watch src --ext ts,json --exec ts-node src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js"
   },
@@ -20,15 +20,21 @@
   },
   "homepage": "https://github.com/segnitsega/Bookstore-app-backend#readme",
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.7",
+    "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
     "@prisma/client": "^6.10.1",
+    "bcrypt": "^6.0.0",
     "dotenv": "^17.0.0",
     "express": "^5.1.0",
+    "json-web-token": "^3.2.0",
+    "jsonwebtoken": "^9.0.2",
     "prisma": "^6.10.1"
   }
 }
