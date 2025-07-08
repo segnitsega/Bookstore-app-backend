@@ -67,3 +67,5 @@ export const handleLogin = async (req: Request, res: Response): Promise<any> => 
         refreshToken: refreshToken
     })
 }
+
+export default prisma

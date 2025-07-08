@@ -1,5 +1,6 @@
 import express from "express"
 import { userRouter } from "./routes/users.routes"
+import { bookRouter } from "./routes/books.routes"
 
 require('dotenv').config()
 
@@ -8,6 +9,8 @@ const server = express()
 
 server.use(express.json())
 server.use('/api/user', userRouter)
+server.use('/api/books', bookRouter)
+
 
 server.listen(port, () => {
     console.log(`Bookstore server running on port ${port}`)
