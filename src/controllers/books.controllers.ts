@@ -25,3 +25,15 @@ export const addBook = async(req: Request, res:Response) => {
         res.status(200).json({message: "New book successfully added.", newBook})
     }
 }
+
+export const getBookById = async(req: Request, res: Response) => {
+    const id = req.params.id;
+
+    const book = await prisma.book.findUnique({
+       where: {
+        id: parseInt(id)
+       }
+    })
+
+    res.status(200).json({book: book})
+}

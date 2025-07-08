@@ -23,8 +23,8 @@ model Book{
   author String
   price  Float
   stock  Int
-  description String
-  imageUrl  String
+  description String @db.Text
+  imageUrl  String?
 }
 
 model CartItem {
