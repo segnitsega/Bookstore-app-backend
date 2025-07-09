@@ -4,8 +4,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { catchAsync } from "../utils/catchAsync";
 import { ApiError } from "../utils/apiError";
+import prisma from "../lib/prisma";
 
-const prisma = new PrismaClient();
 const secretKey = process.env.secret_key as string;
 const refreshkey = process.env.refresh_key as string;
 
@@ -72,4 +72,3 @@ export const handleLogin = catchAsync(async (
   });
 });
 
-export default prisma;

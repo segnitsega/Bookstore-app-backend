@@ -1,4 +1,4 @@
-import prisma from "./users.controllers"
+import prisma from "../lib/prisma"
 import { Request, Response } from "express"
 import { catchAsync } from "../utils/catchAsync"
 import { ApiError } from "../utils/apiError"
