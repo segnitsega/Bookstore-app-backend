@@ -2,36 +2,29 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+// password for users -> password123
 async function main() {
-  await prisma.user.createMany({
+  await prisma.cartItem.createMany({
     data: [
       {
-        firstName: "John",
-        lastName: "Doe",
-        email: "john.doe@example.com",
-        password: "password123",
-        role: "user",
+        userId: 2,
+        bookId: 4,
+        quantity: 2,
       },
       {
-        firstName: "Segni",
-        lastName: "Tsega",
-        email: "segni@dev.com",
-        password: "password123",
-        role: "admin",
+        userId: 3,
+        bookId: 6,
+        quantity: 3,
       },
       {
-        firstName: "Elias",
-        lastName: "Wekgari",
-        email: "eias@wekgari.com",
-        password: "password123",
-        role: "user",
+        userId: 4,
+        bookId: 8,
+        quantity: 4,
       },
       {
-        firstName: "Abdi",
-        lastName: "Gashahun",
-        email: "abdi@gmail.com",
-        password: "password123",
-        role: "user",
+        userId: 5,
+        bookId: 10,
+        quantity: 5,
       },
     ],
   });
