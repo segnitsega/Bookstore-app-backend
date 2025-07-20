@@ -12,12 +12,8 @@ server.use(express.json())
 server.use('/api/user', userRouter)
 server.use('/api/books', bookRouter)
 
-
 server.use(errorHandler)
 
 server.listen(port, () => {
     console.log(`Bookstore server running on port ${port}`)
 })
-
-
-
