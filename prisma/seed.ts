@@ -4,28 +4,26 @@ const prisma = new PrismaClient();
 
 // password for users -> password123
 async function main() {
-  await prisma.cartItem.createMany({
+  await prisma.order.createMany({
     data: [
       {
         userId: 2,
-        bookId: 4,
-        quantity: 2,
-      },
-      {
+        total: 2,
+        
+      }, {
         userId: 3,
-        bookId: 6,
-        quantity: 3,
-      },
-      {
+        total: 1,
+        
+      }, {
         userId: 4,
-        bookId: 8,
-        quantity: 4,
-      },
-      {
+        total: 3,
+        
+      }, {
         userId: 5,
-        bookId: 10,
-        quantity: 5,
+        total: 4,
+        
       },
+      
     ],
   });
 
