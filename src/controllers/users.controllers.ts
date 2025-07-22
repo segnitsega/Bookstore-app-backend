@@ -17,7 +17,6 @@ export const handleSignup = catchAsync(
     });
 
     if (userExists) throw new ApiError(400, `User with email ${email} exists`);
-  
     const hashedPassword = await bcrypt.hash(password, 10);
     const userSaved = await prisma.user.create({
       data: {

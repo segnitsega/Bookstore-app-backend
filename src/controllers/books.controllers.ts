@@ -16,7 +16,7 @@ export const getBooks = catchAsync(async (req: Request, res: Response) => {
     prisma.book.count(),
   ]);
 
-  if (books.length === 0) throw new ApiError(400, "No books found");
+  if (books.length === 0) throw new ApiError(400, "Db working, bu No books found");
   res.status(200).json({
     totalBooks: totalBooks,
     currentPage: page,
