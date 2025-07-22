@@ -17,14 +17,12 @@ export const getBooks = catchAsync(async (req: Request, res: Response) => {
   ]);
 
   if (books.length === 0) throw new ApiError(400, "No books found");
-  res
-    .status(200)
-    .json({
-      books: books,
-      totalBooks: totalBooks,
-      currentPage: page,
-      totalPages: Math.ceil(totalBooks / limit),
-    });
+  res.status(200).json({
+    totalBooks: totalBooks,
+    currentPage: page,
+    totalPages: Math.ceil(totalBooks / limit),
+    books: books,
+  });
 });
 
 export const addBook = catchAsync(async (req: Request, res: Response) => {
