@@ -16,13 +16,26 @@ export const getBooks = catchAsync(async (req: Request, res: Response) => {
     prisma.book.count(),
   ]);
 
-  if (books.length === 0) throw new ApiError(400, "Db working, bu No books found");
+  if (books.length === 0)
+    throw new ApiError(400, "Db working, bu No books found");
   res.status(200).json({
     totalBooks: totalBooks,
     currentPage: page,
     totalPages: Math.ceil(totalBooks / limit),
     books: books,
   });
+});
+
+export const getBookById = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  const book = await prisma.book.findUnique({
+    where: {
+      id: parseInt(id),
+    },
+  });
+  if (!book) throw new ApiError(400, "Error finding book");
+  res.status(200).json({ book: book });
 });
 
 export const addBook = catchAsync(async (req: Request, res: Response) => {
@@ -39,16 +52,4 @@ export const addBook = catchAsync(async (req: Request, res: Response) => {
   });
   if (!newBook) throw new ApiError(400, "Error adding new book");
   res.status(200).json({ message: "New book successfully added.", newBook });
-});
-
-export const getBookById = catchAsync(async (req: Request, res: Response) => {
-  const id = req.params.id;
-
-  const book = await prisma.book.findUnique({
-    where: {
-      id: parseInt(id),
-    },
-  });
-  if (!book) throw new ApiError(400, "Error finding book");
-  res.status(200).json({ book: book });
 });

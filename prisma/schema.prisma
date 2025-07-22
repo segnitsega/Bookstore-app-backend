@@ -9,8 +9,8 @@ datasource db {
 
 model User {
   id Int @id @default(autoincrement())
-  firstName String
-  lastName String
+  firstName String?
+  lastName String?
   email String @unique
   password String
   role String @default("user")
@@ -25,6 +25,8 @@ model Book{
   stock  Int
   description String @db.Text
   imageUrl  String?
+  featured Boolean @default(false)
+  bestSellers Boolean @default(false)
 }
 
 model CartItem {
