@@ -1,0 +1,8 @@
+-- AlterTable
+ALTER TABLE "Book" ADD COLUMN     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "genre" TEXT,
+ADD COLUMN     "isbn" TEXT,
+ADD COLUMN     "pages" DOUBLE PRECISION,
+ADD COLUMN     "publisher" TEXT,
+ADD COLUMN     "reviews" DOUBLE PRECISION,
+ADD COLUMN     "updatedAt" TIMESTAMP(3);
