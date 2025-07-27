@@ -27,6 +27,7 @@ model Book{
   imageUrl  String?
   featured Boolean @default(false)
   bestSellers Boolean @default(false)
+  bookRating Float @default(3)
 }
 
 model CartItem {
