@@ -8,53 +8,52 @@ datasource db {
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  firstName String?
-  lastName String?
-  email String @unique
-  password String
-  role String @default("user")
+  id           Int     @id @default(autoincrement())
+  firstName    String?
+  lastName     String?
+  email        String  @unique
+  password     String
+  role         String  @default("user")
   refreshToken String?
 }
 
-model Book{
-  id Int @id @default(autoincrement())
-  title  String
-  author String
-  price  Float
-  stock  Int
-  description String @db.Text
-  imageUrl  String?
-  featured Boolean @default(false)
-  bestSellers Boolean @default(false)
-  bookRating Float @default(3)
-  genre String?
-  reviews Float?
-  pages Float?
-  publisher String?
+model Book {
+  id            Int       @id @default(autoincrement())
+  title         String
+  author        String
+  price         Float
+  stock         Int
+  description   String
+  imageUrl      String?
+  bestSellers   Boolean   @default(false)
+  featured      Boolean   @default(false)
+  bookRating    Float     @default(3)
+  createdAt     DateTime  @default(now())
+  genre         String?
+  isbn          String?
+  pages         Float?
+  publisher     String?
+  reviews       Float?
+  updatedAt     DateTime? @updatedAt
   publishedDate String?
-  isbn String?
-  createdAt DateTime @default(now())
-   updatedAt DateTime? @updatedAt
-   editions String?
 }
 
 model CartItem {
-  id  Int  @id @default(autoincrement())
-  userId  Int
+  id       Int @id @default(autoincrement())
+  userId   Int
   bookId   Int
   quantity Int
 }
 
 model Order {
-  id  Int @id @default(autoincrement())
-  userId  Int
-  total   Float
-  createdAt DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  total     Float
+  createdAt DateTime @default(now())
 }
 
 model OrderItem {
-  id       Int    @id @default(autoincrement())
+  id       Int   @id @default(autoincrement())
   orderId  Int
   bookId   Int
   quantity Int
