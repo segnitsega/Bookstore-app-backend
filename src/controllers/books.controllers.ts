@@ -89,11 +89,38 @@ export const getBestSellers = catchAsync(
       throw new ApiError(400, "No bestsellers book found");
 
     res.status(200).json({
-       totalBestsellersBooks: totalBestsellersBooks,
+      totalBestsellersBooks: totalBestsellersBooks,
       currentPage: page,
       totalPage: Math.ceil(totalBestsellersBooks / limit),
       bestsellersBooks: bestsellersBooks,
-    })
+    });
+  }
+);
+
+export const getBooksByGenre = catchAsync(
+  async (req: Request, res: Response) => {
+    const genre = req.params.genre;
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 4;
+    const skip = (page - 1) * limit;
+
+    const [books, totalBooks] = await Promise.all([
+      prisma.book.findMany({
+        where: {
+          genre,
+        },
+        skip,
+        take: limit
+      }),
+      prisma.book.count(),
+    ]);
+    if (books.length === 0) throw new ApiError(400, "No books found in this genre");
+    res.status(200).json({
+      totalBooks: totalBooks,
+      currentPage: page,
+      totalPages: Math.ceil(totalBooks / limit),
+      books: books,
+    });
   }
 );
 
