@@ -48,7 +48,7 @@ export const handleSignup = catchAsync(
       .status(200)
       .json({
         message: " New user registered successfully",
-        user: userSaved,
+        userId: userSaved.id,
         accessToken: accessToken,
         refreshToken: refreshToken,
       });
