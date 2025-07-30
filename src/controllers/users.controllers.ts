@@ -91,3 +91,20 @@ export const handleLogin = catchAsync(
     });
   }
 );
+
+export const getUser = catchAsync(async (req:Request, res:Response) => {
+  const userId = parseInt(req.params.id);
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      id: true,
+      email: true,
+      firstName: true,
+      lastName: true,
+      role: true,
+    },
+  });
+
+  if (!user) throw new ApiError(404, "User not found");
+  res.status(200).json({ user });
+})
