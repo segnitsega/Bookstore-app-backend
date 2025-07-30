@@ -8,4 +8,5 @@ bookRouter.get('/featured', getFeaturedBooks)
 bookRouter.get('/bestsellers', getBestSellers)
 bookRouter.get('/genre/:genre', getBooksByGenre)
 bookRouter.get('/:id', getBookById)
+
 bookRouter.post('/', addBook)

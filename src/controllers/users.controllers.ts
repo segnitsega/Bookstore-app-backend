@@ -11,7 +11,7 @@ const refreshkey = process.env.refresh_key as string;
 
 export const handleSignup = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
-    const { email, password } = req.body;
+    const { email, password, firstName, lastName } = req.body;
     const userExists = await prisma.user.findUnique({
       where: { email },
     });
@@ -22,6 +22,8 @@ export const handleSignup = catchAsync(
       data: {
         email,
         password: hashedPassword,
+        firstName,
+        lastName,
       },
     });
 
@@ -46,6 +48,7 @@ export const handleSignup = catchAsync(
       .status(200)
       .json({
         message: " New user registered successfully",
+        user: userSaved,
         accessToken: accessToken,
         refreshToken: refreshToken,
       });
