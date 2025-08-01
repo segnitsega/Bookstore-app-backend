@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { catchAsync } from "../utils/catchAsync";
@@ -8,6 +7,33 @@ import prisma from "../lib/prisma";
 
 const secretKey = process.env.secret_key as string;
 const refreshkey = process.env.refresh_key as string;
+
+export const handleUpdateProfile = catchAsync(async(req: Request, res: Response): Promise<any> => {
+  const {firstName, lastName, state, city, userId} = req.body;
+  const data = {firstName, lastName, state, city};
+
+  const updatedProfile = await prisma.user.update({
+    where: { id: parseInt(userId) },
+    data: data,
+    select: {
+      firstName: true,
+      lastName: true,
+      state: true,
+      city: true,
+      email: true,
+      role: true,
+      id: true,
+      createdAt: true,
+      updatedAt: true,  
+    }
+  })
+  if (!updatedProfile) throw new ApiError(404, "User not found");
+  
+  res.status(200).json({
+    message: "Profile updated successfully",
+    user: updatedProfile,
+  })
+})
 
 export const handleSignup = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
