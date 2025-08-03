@@ -8,24 +8,52 @@ datasource db {
 }
 
 model User {
-  id           Int     @id @default(autoincrement())
-  firstName    String?
-  lastName     String?
-  state        String?
-  city         String?
+  id             String       @id @default(uuid())
+  firstName      String?
+  lastName       String?
+  email          String    @unique
+  password       String
+  role           String    @default("user")
+  refreshToken   String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime? @updatedAt
+  wishlist       String[]  @default([])
+  city           String?
+  state          String?
   preferredGenre String?
   preferredPrice String?
-  email        String  @unique
-  password     String
-  role         String  @default("user")
-  refreshToken String?
-  wishlist      String[] @default([])
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime? @updatedAt
+  CartItem CartItem[]
+  order Order[]
+}
+
+model CartItem {
+  id       String @id @default(uuid())
+  userId   String
+  quantity Int
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Order {
+  id        String      @id @default(uuid())
+  userId    String
+  total     Float
+  createdAt DateTime @default(now())
+  user User @relation(fields: [userId], references: [id])
+  orderItem OrderItem[]
+}
+
+model OrderItem {
+  id       String   @id @default(uuid())
+  orderId  String
+  bookId   String
+  quantity Int
+  price    Float
+  order Order @relation(fields: [orderId], references: [id])
+  book Book @relation(fields: [bookId], references: [id])
 }
 
 model Book {
-  id            Int       @id @default(autoincrement())
+  id            String       @id @default(uuid())
   title         String
   author        String
   price         Float
@@ -41,28 +69,7 @@ model Book {
   pages         Float?
   publisher     String?
   reviews       Float?
-  updatedAt     DateTime? @updatedAt
+  updatedAt     DateTime? @updatedAt  
   publishedDate String?
-}
-
-model CartItem {
-  id       Int @id @default(autoincrement())
-  userId   Int
-  bookId   Int
-  quantity Int
-}
-
-model Order {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  total     Float
-  createdAt DateTime @default(now())
-}
-
-model OrderItem {
-  id       Int   @id @default(autoincrement())
-  orderId  Int
-  bookId   Int
-  quantity Int
-  price    Float
+  orderItem OrderItem[]
 }

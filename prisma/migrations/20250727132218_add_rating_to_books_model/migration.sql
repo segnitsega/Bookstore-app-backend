@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE "Book" ADD COLUMN     "bookRating" DOUBLE PRECISION NOT NULL DEFAULT 3;
