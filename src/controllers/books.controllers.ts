@@ -30,7 +30,7 @@ export const getBookById = catchAsync(async (req: Request, res: Response) => {
 
   const book = await prisma.book.findUnique({
     where: {
-      id: parseInt(id),
+      id: id,
     },
   });
   if (!book) throw new ApiError(400, "Error finding book");

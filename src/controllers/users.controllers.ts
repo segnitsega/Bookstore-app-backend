@@ -8,32 +8,35 @@ import prisma from "../lib/prisma";
 const secretKey = process.env.secret_key as string;
 const refreshkey = process.env.refresh_key as string;
 
-export const handleUpdateProfile = catchAsync(async(req: Request, res: Response): Promise<any> => {
-  const {firstName, lastName, state, city, userId} = req.body;
-  const data = {firstName, lastName, state, city};
+export const handleUpdateProfile = catchAsync(
+  async (req: Request, res: Response): Promise<any> => {
+    const userId = req.params.id as string;
+    const { firstName, lastName, state, city } = req.body;
+    const data = { firstName, lastName, state, city };
 
-  const updatedProfile = await prisma.user.update({
-    where: { id: parseInt(userId) },
-    data: data,
-    select: {
-      firstName: true,
-      lastName: true,
-      state: true,
-      city: true,
-      email: true,
-      role: true,
-      id: true,
-      createdAt: true,
-      updatedAt: true,  
-    }
-  })
-  if (!updatedProfile) throw new ApiError(404, "User not found");
-  
-  res.status(200).json({
-    message: "Profile updated successfully",
-    user: updatedProfile,
-  })
-})
+    const updatedProfile = await prisma.user.update({
+      where: { id: userId },
+      data: data,
+      select: {
+        firstName: true,
+        lastName: true,
+        state: true,
+        city: true,
+        email: true,
+        role: true,
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+    if (!updatedProfile) throw new ApiError(404, "User not found");
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      user: updatedProfile,
+    });
+  }
+);
 
 export const handleSignup = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
@@ -70,14 +73,12 @@ export const handleSignup = catchAsync(
         refreshToken,
       },
     });
-    return res
-      .status(200)
-      .json({
-        message: " New user registered successfully",
-        userId: userSaved.id,
-        accessToken: accessToken,
-        refreshToken: refreshToken,
-      });
+    return res.status(200).json({
+      message: " New user registered successfully",
+      userId: userSaved.id,
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    });
   }
 );
 
@@ -118,8 +119,8 @@ export const handleLogin = catchAsync(
   }
 );
 
-export const getUser = catchAsync(async (req:Request, res:Response) => {
-  const userId = parseInt(req.params.id);
+export const getUser = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.params.id as string;
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: {
@@ -133,4 +134,4 @@ export const getUser = catchAsync(async (req:Request, res:Response) => {
 
   if (!user) throw new ApiError(404, "User not found");
   res.status(200).json({ user });
-})
+});
