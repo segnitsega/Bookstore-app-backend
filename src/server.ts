@@ -4,7 +4,6 @@ import { bookRouter } from "./routes/books.routes"
 import { errorHandler } from "./middlewares/errorHandler"
 import cartRouter from "./routes/cart.routes"
 import cors from "cors"
-import { verifyToken } from "./utils/verify-token"
 import { protectRoute } from "./routes/protected.route"
 
 require('dotenv').config()

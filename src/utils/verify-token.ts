@@ -12,7 +12,7 @@ export interface RequestProp extends Request {
     user: DecodedToken
 }
 
-export const verifyToken = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+export const verifyToken = catchAsync(async (req: any, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization as string;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -21,11 +21,9 @@ export const verifyToken = catchAsync(async (req: Request, res: Response, next: 
 
   const token = authHeader.split(" ")[1];
   try {
-    const secret = process.env.JWT_SECRET!;
-    const decoded = jwt.verify(token, secret) as DecodedToken;
-
-    (req as Request & {user: DecodedToken}).user = decoded;
-
+    const secret = process.env.secret_key as string;
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded;
     next();
   } catch (err) {
     throw new ApiError(403, "Forbidden: Invalid or expired token")
