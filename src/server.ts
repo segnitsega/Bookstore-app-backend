@@ -17,9 +17,9 @@ server.use(cors({
 
 server.use(express.json())
 server.use('/protected', protectRoute)
-server.use('/api/user', userRouter)
-server.use('/api/books', bookRouter)
-server.use('/api/cart', cartRouter)
+server.use('/user', userRouter)
+server.use('/books', bookRouter)
+server.use('/cart', cartRouter)
 
 
 server.use(errorHandler)

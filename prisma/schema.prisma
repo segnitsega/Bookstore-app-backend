@@ -29,7 +29,8 @@ model User {
 model CartItem {
   id       String @id @default(uuid())
   userId   String
-  quantity Int
+  bookId String
+  book Book @relation(fields: [bookId], references: [id])
   user User @relation(fields: [userId], references: [id])
 }
 
@@ -71,5 +72,7 @@ model Book {
   reviews       Float?
   updatedAt     DateTime? @updatedAt  
   publishedDate String?
+  inCart Boolean?
   orderItem OrderItem[]
+  cartItem CartItem[]
 }

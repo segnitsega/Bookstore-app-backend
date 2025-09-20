@@ -36,7 +36,7 @@ export const handleUpdateProfile = catchAsync(
       user: updatedProfile,
     });
   }
-);
+);  
 
 export const handleSignup = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
