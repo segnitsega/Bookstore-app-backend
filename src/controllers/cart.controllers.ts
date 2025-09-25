@@ -9,6 +9,9 @@ export const getCartItems = catchAsync(async (req: Request, res: Response) => {
     where: {
       userId: userId,
     },
+    include: {
+      book: true,
+    },
   });
   if (cartItems.length === 0) throw new ApiError(400, "No items found in cart");
   res.status(200).json({
@@ -42,3 +45,20 @@ export const addToCart = catchAsync(async (req: Request, res: Response) => {
     addedToCart,
   });
 });
+
+export const removeFromCart = catchAsync(
+  async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    const removeItem = await prisma.cartItem.delete({
+      where: {
+        id,
+      },
+    });
+    if (!removeItem) throw new ApiError(500, "Failed to remove item");
+
+    res.status(200).json({
+      message: "success",
+    });
+  }
+);
