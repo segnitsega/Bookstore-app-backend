@@ -6,6 +6,7 @@ import cartRouter from "./routes/cart.routes"
 import cors from "cors"
 import { protectRoute } from "./routes/protected.route"
 import prisma from "./lib/prisma"
+import { ApiError } from "./utils/apiError"
 
 require('dotenv').config()
 
@@ -41,8 +42,8 @@ server.get('/search', async (req: Request, res: Response) => {
         ],
       },
     });
-
-    res.json({ results: books });
+    if(books.length > 0) res.json({ books });
+    else throw new ApiError(400, "No such book")
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
