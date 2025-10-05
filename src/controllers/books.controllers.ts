@@ -3,25 +3,75 @@ import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import { ApiError } from "../utils/apiError";
 
+// export const getBooks = catchAsync(async (req: Request, res: Response) => {
+//   const page = parseInt(req.query.page as string) || 1;
+//   const limit = parseInt(req.query.limit as string) || 10;
+//   const skip = (page - 1) * limit;
+
+//   const [books, totalBooks] = await Promise.all([
+//     prisma.book.findMany({
+//       skip,
+//       take: limit,
+//     }),
+//     prisma.book.count(),
+//   ]);
+
+//   if (books.length === 0) throw new ApiError(400, "No books found");
+//   res.status(200).json({
+//     totalBooks: totalBooks,
+//     currentPage: page,
+//     totalPages: Math.ceil(totalBooks / limit),
+//     books: books,
+//   });
+// });
+
 export const getBooks = catchAsync(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
 
+  const where: any = {};
+
+  if (req.query.featured) {
+    where.featured = req.query.featured === "true";
+  }
+
+  if (req.query.bestSellers) {
+    where.bestSellers = req.query.bestSellers === "true";
+  }
+
+  if (req.query.genre) {
+    where.genre = req.query.genre as string;
+  }
+
+  if (req.query.minPrice || req.query.maxPrice) {
+    where.price = {};
+    if (req.query.minPrice)
+      where.price.gte = parseFloat(req.query.minPrice as string);
+    if (req.query.maxPrice)
+      where.price.lte = parseFloat(req.query.maxPrice as string);
+  }
+
+  if (req.query.minRating) {
+    where.bookRating = { gte: parseFloat(req.query.minRating as string) };
+  }
+
   const [books, totalBooks] = await Promise.all([
     prisma.book.findMany({
+      where,
       skip,
       take: limit,
     }),
-    prisma.book.count(),
+    prisma.book.count({ where }),
   ]);
 
   if (books.length === 0) throw new ApiError(400, "No books found");
+
   res.status(200).json({
-    totalBooks: totalBooks,
+    totalBooks,
     currentPage: page,
     totalPages: Math.ceil(totalBooks / limit),
-    books: books,
+    books,
   });
 });
 
@@ -110,11 +160,12 @@ export const getBooksByGenre = catchAsync(
           genre,
         },
         skip,
-        take: limit
+        take: limit,
       }),
       prisma.book.count(),
     ]);
-    if (books.length === 0) throw new ApiError(400, "No books found in this genre");
+    if (books.length === 0)
+      throw new ApiError(400, "No books found in this genre");
     res.status(200).json({
       totalBooks: totalBooks,
       currentPage: page,
