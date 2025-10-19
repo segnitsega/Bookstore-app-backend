@@ -3,33 +3,11 @@ import { Request, Response } from "express";
 import { catchAsync } from "../utils/catchAsync";
 import { ApiError } from "../utils/apiError";
 
-// export const getBooks = catchAsync(async (req: Request, res: Response) => {
-//   const page = parseInt(req.query.page as string) || 1;
-//   const limit = parseInt(req.query.limit as string) || 10;
-//   const skip = (page - 1) * limit;
-
-//   const [books, totalBooks] = await Promise.all([
-//     prisma.book.findMany({
-//       skip,
-//       take: limit,
-//     }),
-//     prisma.book.count(),
-//   ]);
-
-//   if (books.length === 0) throw new ApiError(400, "No books found");
-//   res.status(200).json({
-//     totalBooks: totalBooks,
-//     currentPage: page,
-//     totalPages: Math.ceil(totalBooks / limit),
-//     books: books,
-//   });
-// });
-
 export const getBooks = catchAsync(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
-
+  console.log("Here is the query strings", req.query)
   const where: any = {};
 
   if (req.query.featured) {
