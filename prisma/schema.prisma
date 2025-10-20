@@ -72,7 +72,6 @@ model Book {
   reviews       Float?
   updatedAt     DateTime? @updatedAt  
   publishedDate String?
-  inCart Boolean?
   orderItem OrderItem[]
   cartItem CartItem[]
 }
