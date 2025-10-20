@@ -29,15 +29,6 @@ export const addToCart = catchAsync(async (req: Request, res: Response) => {
       bookId,
     },
   });
-  await prisma.book.update({
-    where: {
-      id: bookId,
-    },
-    data: {
-      inCart: true,
-    },
-  });
-
   if (!addedToCart) throw new ApiError(500, "Failed to add to cart.");
 
   res.status(201).json({
