@@ -135,3 +135,11 @@ export const getUser = catchAsync(async (req: Request, res: Response) => {
   if (!user) throw new ApiError(404, "User not found");
   res.status(200).json({ user });
 });
+
+export const getUserCartItems = catchAsync(async(req: Request, res: Response) => {
+  const userId = req.params.id as string;
+  const cartItems = await prisma.cartItem.findMany();
+
+  if(!cartItems) throw new ApiError(404, "No item in cart");
+  res.status(200).json({cartItems})
+})
