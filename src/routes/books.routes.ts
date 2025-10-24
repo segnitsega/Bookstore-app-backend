@@ -1,5 +1,6 @@
 import express from "express"
 import { getBooks, addBook, getBookById, getFeaturedBooks, getBestSellers, getBooksByGenre, addToWishlist} from "../controllers/books.controllers"
+import { verifyToken } from "../utils/verify-token"
 
 export const bookRouter = express.Router()
 
@@ -9,4 +10,4 @@ bookRouter.get('/bestsellers', getBestSellers)
 bookRouter.get('/genre/:genre', getBooksByGenre)
 bookRouter.get('/:id', getBookById)
 bookRouter.post('/', addBook)
-bookRouter.post('/wishlist/:id', addToWishlist)
+bookRouter.post('/wishlist/:id', verifyToken ,addToWishlist)

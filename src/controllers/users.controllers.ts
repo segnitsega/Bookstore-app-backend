@@ -158,6 +158,9 @@ export const getWishlistBooks = catchAsync(async (req: Request, res: Response) =
   const wishlistBooks = await prisma.wishlist.findMany({
     where: {
       userId
+    },
+    include: {
+      book: true
     }
   });
   

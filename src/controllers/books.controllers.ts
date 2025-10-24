@@ -172,6 +172,7 @@ export const addBook = catchAsync(async (req: Request, res: Response) => {
 export const addToWishlist = catchAsync(async (req: Request, res: Response) => {
   const bookId = req.params.id;
   const userId = (req as any).user.id;
+  console.log("Here is the user id: ", (req as any).user.id )
 
   const addedBook = await prisma.wishlist.create({
     data: {
