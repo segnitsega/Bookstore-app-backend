@@ -8,70 +8,79 @@ datasource db {
 }
 
 model User {
-  id             String       @id @default(uuid())
+  id             String     @id @default(uuid())
   firstName      String?
   lastName       String?
-  email          String    @unique
+  email          String     @unique
   password       String
-  role           String    @default("user")
+  role           String     @default("user")
   refreshToken   String?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime? @updatedAt
-  wishlist       String[]  @default([])
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime?  @updatedAt
   city           String?
   state          String?
   preferredGenre String?
   preferredPrice String?
-  CartItem CartItem[]
-  order Order[]
+  CartItem       CartItem[]
+  order          Order[]
+  Wishlist       Wishlist[]
 }
 
 model CartItem {
-  id       String @id @default(uuid())
-  userId   String
+  id     String @id @default(uuid())
+  userId String
   bookId String
-  book Book @relation(fields: [bookId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  book   Book   @relation(fields: [bookId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Wishlist {
+  id     String @id @default(uuid())
+  userId String
+  bookId String
+  book   Book   @relation(fields: [bookId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Order {
   id        String      @id @default(uuid())
   userId    String
   total     Float
-  createdAt DateTime @default(now())
-  user User @relation(fields: [userId], references: [id])
+  createdAt DateTime    @default(now())
+  user      User        @relation(fields: [userId], references: [id])
   orderItem OrderItem[]
 }
 
 model OrderItem {
-  id       String   @id @default(uuid())
+  id       String @id @default(uuid())
   orderId  String
   bookId   String
   quantity Int
   price    Float
-  order Order @relation(fields: [orderId], references: [id])
-  book Book @relation(fields: [bookId], references: [id])
+  order    Order  @relation(fields: [orderId], references: [id])
+  book     Book   @relation(fields: [bookId], references: [id])
 }
 
 model Book {
-  id            String       @id @default(uuid())
+  id            String      @id @default(uuid())
   title         String
   author        String
   price         Float
   stock         Int
   description   String
   imageUrl      String?
-  bestSellers   Boolean   @default(false)
-  featured      Boolean   @default(false)
-  bookRating    Float     @default(3)
-  createdAt     DateTime  @default(now())
+  bestSellers   Boolean     @default(false)
+  featured      Boolean     @default(false)
+  bookRating    Float       @default(3)
+  createdAt     DateTime    @default(now())
   genre         String?
   isbn          String?
   pages         Float?
   publisher     String?
   reviews       Float?
-  updatedAt     DateTime? @updatedAt  
+  updatedAt     DateTime?   @updatedAt
   publishedDate String?
-  orderItem OrderItem[]
-  cartItem CartItem[]
+  orderItem     OrderItem[]
+  cartItem      CartItem[]
+  Wishlist      Wishlist[]
 }

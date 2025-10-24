@@ -7,7 +7,7 @@ export const getBooks = catchAsync(async (req: Request, res: Response) => {
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 10;
   const skip = (page - 1) * limit;
-  console.log("Here is the query strings", req.query)
+  console.log("Here is the query strings", req.query);
   const where: any = {};
 
   if (req.query.featured) {
@@ -167,4 +167,18 @@ export const addBook = catchAsync(async (req: Request, res: Response) => {
   });
   if (!newBook) throw new ApiError(400, "Error adding new book");
   res.status(200).json({ message: "New book successfully added.", newBook });
+});
+
+export const addToWishlist = catchAsync(async (req: Request, res: Response) => {
+  const bookId = req.params.id;
+  const userId = (req as any).user.id;
+
+  const addedBook = await prisma.wishlist.create({
+    data: {
+      bookId,
+      userId,
+    },
+  });
+  if (!addedBook) throw new ApiError(400, "Error adding book to wishlist");
+  res.status(201).json({ addedBook });
 });

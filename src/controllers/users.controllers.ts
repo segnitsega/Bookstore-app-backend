@@ -36,7 +36,7 @@ export const handleUpdateProfile = catchAsync(
       user: updatedProfile,
     });
   }
-);  
+);
 
 export const handleSignup = catchAsync(
   async (req: Request, res: Response): Promise<any> => {
@@ -136,10 +136,19 @@ export const getUser = catchAsync(async (req: Request, res: Response) => {
   res.status(200).json({ user });
 });
 
-export const getUserCartItems = catchAsync(async(req: Request, res: Response) => {
-  const userId = req.params.id as string;
-  const cartItems = await prisma.cartItem.findMany();
+export const getUserCartItems = catchAsync(
+  async (req: Request, res: Response) => {
+    const userId = req.params.id as string;
+    const cartItems = await prisma.cartItem.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        book: true,
+      },
+    });
 
-  if(!cartItems) throw new ApiError(404, "No item in cart");
-  res.status(200).json({cartItems})
-})
+    if (cartItems.length === 0) throw new ApiError(404, "No item in cart");
+    res.status(200).json({ cartItems });
+  }
+);

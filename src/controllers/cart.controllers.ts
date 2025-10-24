@@ -23,6 +23,14 @@ export const getCartItems = catchAsync(async (req: Request, res: Response) => {
 export const addToCart = catchAsync(async (req: Request, res: Response) => {
   const userId = (req as any).user.id;
   const { bookId } = req.body;
+  const bookExists = await prisma.cartItem.findFirst({
+    where: {
+      bookId,
+      userId,
+    },
+  });
+  if (bookExists) throw new ApiError(400, "Book already exist in cart");
+
   const addedToCart = await prisma.cartItem.create({
     data: {
       userId,
