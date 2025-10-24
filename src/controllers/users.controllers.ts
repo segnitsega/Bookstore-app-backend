@@ -152,3 +152,18 @@ export const getUserCartItems = catchAsync(
     res.status(200).json({ cartItems });
   }
 );
+
+export const getWishlistBooks = catchAsync(async (req: Request, res: Response) => {
+  const userId = req.params.id;
+  const wishlistBooks = await prisma.wishlist.findMany({
+    where: {
+      userId
+    }
+  });
+  
+  if(!wishlistBooks){
+    res.status(400).json({message: "No books in wishlist"});
+  }
+  
+  res.status(200).json({wishlistBooks});
+})
