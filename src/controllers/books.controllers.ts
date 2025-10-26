@@ -183,3 +183,19 @@ export const addToWishlist = catchAsync(async (req: Request, res: Response) => {
   if (!addedBook) throw new ApiError(400, "Error adding book to wishlist");
   res.status(201).json({ addedBook });
 });
+
+export const removeFromWishlist = catchAsync(async(req: Request, res: Response) => {
+  const bookId = req.params.id;
+  const userId = (req as any).user.id;
+
+  const removedBook = await prisma.wishlist.delete({
+    where: {
+      bookId_userId: {
+        bookId,
+        userId,
+      },
+    },
+  });
+  if(!removedBook) throw new ApiError(400, "Error removing book from wishlist");
+  res.status(204).send();
+})

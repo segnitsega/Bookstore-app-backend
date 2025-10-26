@@ -40,6 +40,8 @@ model Wishlist {
   bookId String
   book   Book   @relation(fields: [bookId], references: [id])
   user   User   @relation(fields: [userId], references: [id])
+
+  @@unique([bookId, userId])
 }
 
 model Order {
