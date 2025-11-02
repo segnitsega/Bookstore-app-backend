@@ -14,7 +14,7 @@ const port = process.env.PORT
 const server = express()
 
 server.use(cors({
-    origin:'*'
+    origin:['http://localhost:5173', 'https://bookstore-app-ptwt.vercel.app/']
 }))
 
 server.use(express.json())
