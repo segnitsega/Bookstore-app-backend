@@ -25,7 +25,7 @@ const server = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://bookstore-app12.netlify.app/",
+  "https://bookstore-app12.netlify.app",
   "http://localhost:3000",
 ];
 
